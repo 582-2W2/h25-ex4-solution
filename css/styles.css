@@ -1,0 +1,262 @@
+/* Normalisation supplémentaire 
+=============================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* Mise en page de base
+=============================================== */
+html {
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Asap', sans-serif;
+    /*Ajustement de la taille des polices à la racine du document*/
+    font-size: clamp(12px, 0.5rem + 0.5vw, 18px);
+}
+
+body {
+    max-width: 100%;
+    min-height: 100%;
+    /*Conteneur flex en colonne*/
+    display: flex;
+    flex-direction: column;
+
+    /*Propriétés à ajuster pour le menu*/
+    position: relative;
+
+    /* Pas de défilement horizontale (puisque le menu est déplacé au delà du 
+    viewport) */
+    overflow-x: hidden;
+}
+
+/* Toutes les cases à cocher associées aux boutons burger sont retirées de 
+l'affichage */
+input.cc-burger {
+    display: none;
+}
+
+/* Entête contenant titre et menu burger principal
+===================================================== */
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+/* Bouton burger principal
+===================================================== */
+.bouton-burger {
+    background: linear-gradient(to bottom, #f08c00 0%, #f08c00 20%, transparent 20%, transparent 40%, #f08c00 40%, #f08c00 60%, transparent 60%, transparent 80%, #f08c00 80%, #f08c00 100%);
+    height: 4rem;
+    width: 4rem;
+    margin: 2%;
+    cursor: pointer;
+
+    /* Effet de transition sur la rotation */
+    transition: rotate 1s;
+}
+
+.menu {
+    background-color: #f08c00;
+    color: #fff;
+    font-size: 8rem;
+    text-align: center;
+
+    position: absolute;
+    top: 6rem;
+    height: calc(100vh - 6rem);
+    width: 100%;
+    /* 
+        On s'assure que le menu est au dessus de tout : les éléments qui utilisent
+        la propriété transform dans la page auront leurs propres "contexte d'empilement". Voir : 
+        https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context
+    */
+    z-index: 1;
+
+    /* Centrer le texte */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* On le déplace à droite du viewport */
+    translate: 100%;
+
+    /* Effet de transition lorsque le menu est déplacé dans le viewport */
+    transition: translate 1s;
+}
+
+/* Si la case à cocher associée avec ce bouton burger est cochée, on veut faire
+apparaître le menu (par déplacement horizontal) ... */
+#boutonPrincipal:checked ~ .menu {
+    translate: 0;
+}
+
+/* ... et appliquer une rotation d'un quart de tour au bouton burger */
+#boutonPrincipal:checked ~ .bouton-burger {
+    rotate: 90deg;
+}
+
+/* Les 4 boutons burger secondaires
+===================================================== */
+main {
+    flex: 1 1 auto;
+    /*Conteneur flex en colonne*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4vh 0;
+    margin-top: 2rem;
+}
+
+/* La section contenant le bouton burger */
+section {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    border: 1px solid #ffe066;
+    border-bottom-right-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+
+    width: 80%;
+    height: 40vh;
+
+    /* Conteneur flex en colonne */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Le titre de la section */
+h2 {
+    width: 100%;
+    background-color: #f08c00;
+    color: #fff;
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+}
+
+/* Le conteneur du bouton */
+.conteneur-bouton {
+    /*Hauteur du conteneur parent moins celle du titre*/
+    height: calc(100% - 1.5rem);
+    /*Conteneur flex avec élément contré dans les 2 sens*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Le bouton */
+.bouton {
+    width: 30vmin;
+    height: 20vmin;
+    cursor: pointer;
+
+    /*Contexte flex pour ses enfants en colonne*/
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Les lignes constituants les boutons */
+.ligne {
+    width: 100%;
+    height: 4vmin;
+    background-color: black;
+
+    /* Effet d'animation de toutes les propriétés changeantes des lignes */
+    transition: translate 0.5s, rotate 0.5s, opacity 0.5s, height 0.5s, width 0.5s;
+}
+
+/* États "cliqués" (lorsque les cases à cocher associées sont cochées) 
+des 4 boutons burger secondaires
+=============================================== */
+
+/* PREMIER BOUTON */
+/* Rotation et opacité des lignes */
+#bouton1:checked+.bouton>.ligne1 {
+    translate: 0 8vmin; /* autre stratégie gagnante : % */
+    rotate: 45deg;
+}
+
+#bouton1:checked+.bouton>.ligne2 {
+    opacity: 0;
+}
+
+#bouton1:checked+.bouton>.ligne3 {
+    translate: 0 -8vmin; /* autre stratégie gagnante : % */
+    rotate: -45deg;
+}
+
+/* DEUXIÈME BOUTON */
+/* Translation (déplacement) et opacité des lignes */
+#bouton2:checked+.bouton>.ligne1 {
+    translate: 0 4vmin; /* autre stratégie gagnante : % */
+}
+
+#bouton2:checked+.bouton>.ligne2 {
+    opacity: 0;
+}
+
+#bouton2:checked+.bouton>.ligne3 {
+    translate: 0 -4vmin; /* autre stratégie gagnante : % */
+}
+
+/*TROISIÈME BOUTON*/
+/* Mode d'affichage du bouton et largeur des "lignes" */
+#bouton3:checked+.bouton {
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#bouton3:checked+.bouton>.ligne {
+    width: 4vmin;
+}
+
+/*QUATRIÈME BOUTON*/
+/* Opacité et hauteur des lignes */
+#bouton4:checked+.bouton>.ligne1,
+#bouton4:checked+.bouton>.ligne3 {
+    opacity: 0;
+}
+
+#bouton4:checked+.bouton>.ligne2 {
+    height: 10vmin;
+}
+
+/* Styles pour les écrans plus larges
+=============================================== */
+/* 
+    Pour un viewport de largeur 768px et plus :  
+    a) Les sections sont affichées en rangée, espacées également, avec 
+        possibilité de retour à la ligne ;
+    b) Chaque section occupe 40% du viewport.
+*/
+@media screen and (min-width:768px) {
+    main {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+
+    section {
+        width: 40vw;
+    }
+}
+
+/* 
+    Pour un viewport de largeur 992px et plus : chaque section occupe 20% du 
+    viewport.
+*/
+@media screen and (min-width:992px) {
+    section {
+        flex: 0 1 20%;
+    }
+}
